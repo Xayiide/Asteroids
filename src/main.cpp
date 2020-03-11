@@ -4,8 +4,8 @@
 #include <stdlib.h> /* random */
 #include <time.h>   /* init random */
 
-#include "gfx.h"
-#include "asteroid.h"
+#include "headers/gfx.h"
+#include "headers/asteroid.h"
 
 /*****************************************************************************/
 #define WINWIDTH   300

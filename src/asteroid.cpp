@@ -1,5 +1,5 @@
-#include "asteroid.h"
-#include "gfx.h"
+#include "headers/asteroid.h"
+#include "headers/gfx.h"
 
 #include <stdlib.h> /* random */
 #include <vector>

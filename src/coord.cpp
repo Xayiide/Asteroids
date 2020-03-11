@@ -1,4 +1,4 @@
-#include "coord.h"
+#include "headers/coord.h"
 #include <stdlib.h> /* random */
 
 Coord::Coord() : x(0), y(0) { }
