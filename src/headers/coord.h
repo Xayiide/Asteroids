@@ -3,19 +3,19 @@
 
 class Coord {
 	private:
-		int x, y;
+		double x, y;
 	public:
 		Coord();
-		Coord(int, int);
+		Coord(double, double);
 
 		void randomize(int);
 		
 		/* Getters and Setters */
-		int getx();
-		int gety();
+		double getx();
+		double gety();
 
-		void setx(int);
-		void sety(int);
+		void setx(double);
+		void sety(double);
 };
 
 

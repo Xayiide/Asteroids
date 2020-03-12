@@ -6,9 +6,9 @@
 
 class Asteroid {
 	private:
-		int    xsp, ysp;
-		int    rotsp;
-		double size;
+		double xsp, ysp;
+		double rotsp;
+		int size;
 
 
 		int fr;
@@ -18,10 +18,10 @@ class Asteroid {
 	public:
 		Asteroid();
 		Asteroid(int fr);
-		Asteroid(int, int, int, double, int);
+		Asteroid(double, double, double, int, int);
 
 		void init();
-		void rndst(); /* Randomize stats */
+		void rndst();
 
 		void move();
 		void rot();
@@ -29,15 +29,15 @@ class Asteroid {
 		bool isout(int, int);
 		
 		/* Getters and Setters */
-		int    getxsp();
-		int    getysp();
-		int    getrotsp();
-		double getsize();
+		double getxsp();
+		double getysp();
+		double getrotsp();
+		int    getsize();
 
-		void setxsp(int);
-		void setysp(int);
-		void setrotsp(int);
-		void setsize(double);
+		void setxsp(double);
+		void setysp(double);
+		void setrotsp(double);
+		void setsize(int);
 
 };
 

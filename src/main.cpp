@@ -12,8 +12,8 @@
 #define WINNAME    "Asteroids"
 #define FRAMERATE  10000 /* Update screen every n microseconds */
 
-const int WINWIDTH  = 300;
-const int WINHEIGTH = 300;
+const int WINWIDTH  = 1300;
+const int WINHEIGTH = 1300;
 
 
 void         printUsage(char **);
@@ -27,21 +27,26 @@ unsigned int checkArguments(int, char **);
 //     · Hacer que los asteroides no crucen segmentos al dibujarse
 
 int main(int argc, char *argv[]) {
-	unsigned int i; /* unsigned, else the compiler whines */
 	unsigned int numAsteroids = checkArguments(argc, argv);
 
 	srand(time(NULL));
-	
+
+	std::vector<Asteroid> asts;
+	asts.resize(numAsteroids);
+
+	for (auto &ast: asts)
+		ast = Asteroid(FRAMERATE);
+
 	gfx_open(WINWIDTH, WINHEIGTH, WINNAME);
 	gfx_color(0, 200, 100);
 
 
-	Asteroid a1(FRAMERATE);
-
 	while (1) {
 		gfx_clear();
-		a1.draw();
-		a1.move();
+		for (auto &ast: asts) {
+			ast.draw();
+			ast.move();
+		}
 		gfx_flush();
 		usleep(FRAMERATE);
 	}
