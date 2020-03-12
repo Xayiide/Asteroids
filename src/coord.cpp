@@ -14,8 +14,8 @@ int Coord::getx() { return x; }
 int Coord::gety() { return y; }
 
 void Coord::randomize(int size) {
-    x = rand() % size + 1; /* range from 1 to size */
-    y = rand() % size + 1; 
+	x = rand() % size + 1; /* range from 1 to size */
+	y = rand() % size + 1; 
 }
 
 

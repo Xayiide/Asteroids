@@ -2,20 +2,20 @@
 #define COORD_H_
 
 class Coord {
-    private:
-        int x, y;
-    public:
-        Coord();
-        Coord(int, int);
+	private:
+		int x, y;
+	public:
+		Coord();
+		Coord(int, int);
 
-        void randomize(int);
-        
-        /* Getters and Setters */
-        int getx();
-        int gety();
+		void randomize(int);
+		
+		/* Getters and Setters */
+		int getx();
+		int gety();
 
-        void setx(int);
-        void sety(int);
+		void setx(int);
+		void sety(int);
 };
 
 

@@ -5,34 +5,39 @@
 #include "coord.h"
 
 class Asteroid {
-    private:
-        int    xsp, ysp;
-        int    rotsp;
-        double size;
+	private:
+		int    xsp, ysp;
+		int    rotsp;
+		double size;
 
-        int ncoords;
-        std::vector<Coord> coords;
-        
-    public:
-        Asteroid();
-        Asteroid(int, int, int, double);
 
-        void init();
+		int fr;
+		int ncoords;
+		std::vector<Coord> coords;
+		
+	public:
+		Asteroid();
+		Asteroid(int fr);
+		Asteroid(int, int, int, double, int);
 
-        void move();
-        void rot();
-        void draw();
-        
-        /* Getters and Setters */
-        int    getxsp();
-        int    getysp();
-        int    getrotsp();
-        double getsize();
+		void init();
+		void rndst(); /* Randomize stats */
 
-        void setxsp(int);
-        void setysp(int);
-        void setrotsp(int);
-        void setsize(double);
+		void move();
+		void rot();
+		void draw();
+		bool isout(int, int);
+		
+		/* Getters and Setters */
+		int    getxsp();
+		int    getysp();
+		int    getrotsp();
+		double getsize();
+
+		void setxsp(int);
+		void setysp(int);
+		void setrotsp(int);
+		void setsize(double);
 
 };
 

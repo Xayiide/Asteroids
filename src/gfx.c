@@ -141,25 +141,25 @@ void gfx_clear_color( int r, int g, int b )
 
 int gfx_event_waiting()
 {
-       XEvent event;
+		XEvent event;
 
-       gfx_flush();
+		gfx_flush();
 
-       while (1) {
-               if(XCheckMaskEvent(gfx_display,-1,&event)) {
-                       if(event.type==KeyPress) {
-                               XPutBackEvent(gfx_display,&event);
-                               return 1;
-                       } else if (event.type==ButtonPress) {
-                               XPutBackEvent(gfx_display,&event);
-                               return 1;
-                       } else {
-                               return 0;
-                       }
-               } else {
-                       return 0;
-               }
-       }
+		while (1) {
+				if(XCheckMaskEvent(gfx_display,-1,&event)) {
+						if(event.type==KeyPress) {
+								XPutBackEvent(gfx_display,&event);
+								return 1;
+						} else if (event.type==ButtonPress) {
+								XPutBackEvent(gfx_display,&event);
+								return 1;
+						} else {
+								return 0;
+						}
+				} else {
+						return 0;
+				}
+		}
 }
 
 /* Wait for the user to press a key or mouse button. */
