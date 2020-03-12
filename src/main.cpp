@@ -7,17 +7,19 @@
 
 #include "headers/gfx.h"
 #include "headers/asteroid.h"
+#include "headers/coord.h"
 
 /*****************************************************************************/
 #define WINNAME    "Asteroids"
 #define FRAMERATE  10000 /* Update screen every n microseconds */
 
-const int WINWIDTH  = 1300;
-const int WINHEIGTH = 1300;
+const int WWDTH = 900;
+const int WHGHT = 900;
 
 
 void         printUsage(char **);
 unsigned int checkArguments(int, char **);
+void         initspawnpts(std::vector<Coord>);
 
 // TODO: Create vector of Asteroids
 //     · For every asteroid, move it
@@ -27,17 +29,20 @@ unsigned int checkArguments(int, char **);
 //     · Hacer que los asteroides no crucen segmentos al dibujarse
 
 int main(int argc, char *argv[]) {
-	unsigned int numAsteroids = checkArguments(argc, argv);
+	unsigned int          nast;      /* Number of asteroids                */
+	std::vector<Asteroid> asts;      /* Vector containing all asteroids    */
+
 
 	srand(time(NULL));
+	nast = checkArguments(argc, argv);
+	asts.resize(nast);
 
-	std::vector<Asteroid> asts;
-	asts.resize(numAsteroids);
 
-	for (auto &ast: asts)
+	for (auto &ast: asts) {
 		ast = Asteroid(FRAMERATE);
+	}
 
-	gfx_open(WINWIDTH, WINHEIGTH, WINNAME);
+	gfx_open(WWDTH, WHGHT, WINNAME);
 	gfx_color(0, 200, 100);
 
 

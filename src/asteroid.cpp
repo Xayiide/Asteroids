@@ -6,54 +6,37 @@
 #include <stdio.h>
 #include <math.h>   /* round and stuff */
 
-Asteroid::Asteroid() { } /* Just here cause needed on main */
+Asteroid::Asteroid() { } /* Needed to create the vector on main */
 
 Asteroid::Asteroid(int f) {
-	xsp = 10;
-	ysp = 10;
-	rotsp = 0;
-	size = 300;
-	fr = f;
+	this->fr     = f;
+	rndstats(); /* Randomize xsp, ysp, rotsp and size */
 	init();
 }
 
-/* Initialize the Asteroid speed with pixels or whatever gfx uses per second */
-Asteroid::Asteroid(double x, double y, double r, int s, int f) :
-								xsp(x), ysp(y), rotsp(r), size(s), fr(f) {
-		init();
-	 }
-
-
-
 void Asteroid::init() {
-	/* Randomize xsp, ysp, rotsp and size */
-	rndst();
-
 	/* Convert xsp from pixels per sec or whatever to pixels per framerate.
 	   Doing it here avoids us doing it every time we move the asteroid */
 	this->xsp = (fr * xsp) / 1000000.; /* 1s = 1.000.000us */
 	this->ysp = (fr * ysp) / 1000000.; 
 
-
 	/* Make ncoords a random number between 3 and 4 */
 	ncoords = 3 + (rand() % static_cast<int>(4 - 3 + 1)); 
 
-
 	/* Cambia el tamaño del vector a ncoords elementos */
 	coords.resize(ncoords);
-
-	
-	/* Inicializa a valores aleatorios cada Coord */
-	for (auto &c : coords)
-		c.randomize(size);
-
 }
 
-void Asteroid::rndst() {
+void Asteroid::rndstats() {
 	this->xsp   = -10 + (rand() % static_cast<int>(10+10+1));
 	this->ysp   = -10 + (rand() % static_cast<int>(10+10+1));
 	this->rotsp = -10 + (rand() % static_cast<int>(10+10+1)); /* TODO: cambiar por unidades de giro que sean */
 	this->size  = rand() % 100;
+}
+
+void Asteroid::rndcoords() {
+	/* Elegir un punto fuera de la pantalla */
+	/* Generar ncoords - 1 puntos que estén a como mucho distancia size de el */
 }
 
 void Asteroid::move() {

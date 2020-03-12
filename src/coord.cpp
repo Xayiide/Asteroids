@@ -13,9 +13,9 @@ double Coord::getx() { return x; }
 
 double Coord::gety() { return y; }
 
-void Coord::randomize(int size) {
-	x = rand() % size + 1; /* range from 1 to size */
-	y = rand() % size + 1; 
+void Coord::randomize(int width, int height) {
+	x = rand() % width  + 1; /* range from 1 to size */
+	y = rand() % height + 1; 
 }
 
 

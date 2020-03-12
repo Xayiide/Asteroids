@@ -8,7 +8,7 @@ class Coord {
 		Coord();
 		Coord(double, double);
 
-		void randomize(int);
+		void randomize(int, int);
 		
 		/* Getters and Setters */
 		double getx();

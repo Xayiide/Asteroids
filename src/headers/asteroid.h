@@ -17,11 +17,11 @@ class Asteroid {
 		
 	public:
 		Asteroid();
-		Asteroid(int fr);
-		Asteroid(double, double, double, int, int);
+		Asteroid(int);
 
 		void init();
-		void rndst();
+		void rndstats();
+		void rndcoords();
 
 		void move();
 		void rot();
