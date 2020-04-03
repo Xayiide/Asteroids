@@ -7,7 +7,7 @@ CXX      = g++
 CXXFLAGS = -g -Wall -Wextra -pedantic -lX11
 
 
-asteroids: main.cpp gfx.o asteroid.o coord.o
+asteroids: main.cpp gfx.o asteroids.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $^
 	@rm *.o
 
