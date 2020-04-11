@@ -5,6 +5,7 @@
 #include <stdlib.h>   /* rand()          */
 #include <math.h>     /* round(), sqrt() */
 #include <string.h>   /* memcpy()        */
+#include <stdio.h>    /* printf()        */
 
 Asteroid::Asteroid() { }
 
@@ -36,14 +37,16 @@ void Asteroid::initialize() {
    -0.1 * 100 + 11 = 1
    -0.1 * 10  + 11 = 10 */
 double Asteroid::ipspeed() {
-	return ((-0.1 * size) + 11.);
+	return (-0.1 * size) + 11.;
 }
 
 /* Initialize directions randomly */
 void Asteroid::randdir() {
 	/* Range from [MINSPD, MAXSPD - MINSPD] */
 	dir[0] = rand() % (MAXSPD - MINSPD + 1) + MINSPD;
-	dir[1] = round(sqrt((speed * speed) - (dir[0] * dir[0])));
+	// dir[1] = round(sqrt((speed * speed) - (dir[0] * dir[0])));
+	dir[1] = (speed * speed) - (dir[0] * dir[0]);
+	dir[1] = round(sqrt(dir[1]));
 
 
 	/* Okay so maybe speeds on the opposite directions */
@@ -63,8 +66,7 @@ void Asteroid::randangvl() {
 /* Update asteroid's coordinates */
 void Asteroid::update() {
 	double alpha, beta;
-
-	for (int i = 0; i < nsides; i++) {
+	for (int i = 0; i < nsides - 1; i++) {
 		alpha = i * ((2 * PI) / nsides);
 		beta  = (i + 1) * ((2 * PI) / nsides);
 
@@ -94,10 +96,10 @@ int Asteroid::auxmov() {
 void Asteroid::draw() {
 	/* With this loop we guarantee that the vertices are joined in the correct
 	   order and there are no crossing lines */
-	int i; /* Tenemos que declarar aqui aunque quede feo por la ultima linea */
-	for (i = 0; i < nsides; i++)
-		gfx_line(verts[i][0], verts[i][1], verts[i+1][0], verts[i+1][i]);
-	gfx_line(verts[0][0], verts[0][1], verts[i][0], verts[i][1]);
+	int i = 0; /* Tenemos que declarar aqui aunque quede feo por la ultima linea */
+	for (; i < nsides - 1; i++)
+		gfx_line(verts[i][0], verts[i][1], verts[i+1][0], verts[i+1][1]);
+	gfx_line(verts[0][0], verts[0][1], verts[i][0], verts[i][1]); /* TODO: solve segfault */
 }
 
 /* Move the asteroid */

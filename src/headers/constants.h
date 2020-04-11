@@ -1,6 +1,8 @@
 #ifndef CONSTANTS_H_
 #define CONSTANTS_H_
 
+#define FRAMERATE 25000
+
 const double PI     = 3.14159265;
 
 const int    MAXRAD = 100;
