@@ -1,16 +1,27 @@
 .PHONY = clean
 
 CC     = gcc
-CFLAGS = -g -Wall -Wextra -pedantic -lX11 -lm
+CFLAGS = -g -Wall -Wextra -Wpedantic
+LFLAGS = -lX11 -lm
+IFLAGS = -Iinc/
 
-CXX      = g++
-CXXFLAGS = -g -Wall -Wextra -pedantic -lX11
+.PHONY: all clean re
 
+TGT  = main 
+SRCS = main.c gfx.c vec2.c
+OBJS = $(SRCS:.c=.o)
 
-asteroids: main.cpp gfx.o asteroids.o universe.o
-	$(CXX) $(CXXFLAGS) -o $@ $^
-	@rm *.o
+all: $(TGT)
 
+$(TGT): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) $(IFLAGS) -o $(TGT)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $^ -o $@ $(LFLAGS) $(IFLAGS)
 
 clean:
-	@rm asteroids
+	@rm -f $(TGT) $(OBJS)
+	@echo "clean"
+
+
+re: clean all
