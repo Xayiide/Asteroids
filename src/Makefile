@@ -8,7 +8,7 @@ IFLAGS = -Iinc/
 .PHONY: all clean re
 
 TGT  = main 
-SRCS = main.c gfx.c vec2.c
+SRCS = main.c gfx.c vec2.c asteroid.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(TGT)

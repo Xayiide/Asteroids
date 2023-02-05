@@ -1,0 +1,8 @@
+# intermediarios
+*.swp
+
+# objetos
+*.o
+
+# ignora las pruebas
+pruebas/

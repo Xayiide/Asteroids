@@ -4,16 +4,23 @@
 #include <stdint.h>
 #include "vec2.h"
 
+#define MAX_VERTS 4
+
 typedef struct {
-    uint8_t  nsides;
-    Vec2    *sides;
-    double   size;
-    Vec2     vel;
+    uint8_t nsides;
+    Vec2    center;
+    double  size;
+    Vec2    speed;
+    Vec2    verts[MAX_VERTS];
 } Asteroid;
 
-Asteroid ast_create(double, Vec2);
-void     ast_destroy(Asteroid);
+Asteroid ast_create(Vec2);
+//void     ast_destroy(Asteroid);
 
-void ast_draw(Ast);
+void ast_destroy_all();
+
+void ast_draw(Asteroid);
+
+void ast_draw_all_asteroids();
 
 #endif
