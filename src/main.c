@@ -5,10 +5,9 @@
 #include "gfx.h"
 #include "asteroid.h"
 #include "vec2.h"
+#include "common.h"
 
 #define FMRT 25000
-#define HGHT 450
-#define WDTH 900
 
 double rand_range(int min, int max) {
     int res;
@@ -40,10 +39,7 @@ void init_asteroids() {
     Asteroid a;
     for (i = 0; i < 10; i++) {
         a = ast_create(random_center());
-        printf("Creating asteroid with center %f, %f", a.center.x, a.center.y);
-        printf(" and size %f\n", a.size);
     }
-    printf("-------------------------------------\n\n");
 }
 
 void draw_limits() {
@@ -62,6 +58,11 @@ int main() {
     gfx_clear();
 
     init_asteroids();
+    //gfx_line(ast.center.x, ast.center.y, ast.verts[1].x, ast.verts[1].y);
+    gfx_flush();
+    draw_limits();
+    ast_draw_all_asteroids();
+    gfx_wait();
 
     while (1) {
         
@@ -70,10 +71,7 @@ int main() {
         usleep(FMRT);
         draw_limits();
         ast_draw_all_asteroids();
-
-        gfx_wait();
-        ast_destroy_all();
-        init_asteroids();
+        ast_move_all_asteroids();
     }
 
     printf("Asteroides\n");
