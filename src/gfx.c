@@ -14,7 +14,7 @@ Version 2, 9/23/2011 - Fixes a bug that could result in jerky animation.
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "headers/gfx.h"
+#include "gfx.h"
 
 /*
 gfx_open creates several X11 objects, and stores them in globals
