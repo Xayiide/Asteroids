@@ -36,9 +36,8 @@ Vec2 random_center() {
 
 void init_asteroids() {
     int i;
-    Asteroid a;
     for (i = 0; i < 10; i++) {
-        a = ast_create(random_center());
+        (void) ast_create(random_center());
     }
 }
 

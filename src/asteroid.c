@@ -10,6 +10,8 @@ static Asteroid ast_array[256];
 
 static Vec2   random_speed();
 static double random_angle();
+static void   random_vertices(Asteroid *);
+static void   bubble_sort(double [], uint8_t);
 
 
 Asteroid ast_create(Vec2 center) {
@@ -19,19 +21,8 @@ Asteroid ast_create(Vec2 center) {
     a.center = center;
     a.speed  = random_speed();
 
-    /* Crea un cuadrado en la esquina sup. izda. y se lo suma al centro, para
-     * así dejar los vértices alrededos del centro */
-    a.verts[0] = vec2_add(center, vec2_create(-a.size/2, -a.size/2));
-    a.verts[1] = vec2_add(center, vec2_create( a.size/2, -a.size/2));
-    a.verts[2] = vec2_add(center, vec2_create(-a.size/2,  a.size/2));
-    a.verts[3] = vec2_add(center, vec2_create( a.size/2,  a.size/2));
+    random_vertices(&a);
 
-    printf("Asteroide en (%f, %f) con vértices en\n", a.center.x, a.center.y);
-    printf("\t\t\t[%f, %f] [%f, %f]\n", a.verts[0].x, a.verts[0].y,
-                                           a.verts[1].x, a.verts[1].y);
-
-    printf("\t\t\t[%f, %f] [%f, %f]\n", a.verts[2].x, a.verts[2].y,
-                                           a.verts[3].x, a.verts[3].y);
     ast_array[num_asteroids] = a;
     num_asteroids++;
 
@@ -49,12 +40,15 @@ void ast_destroy_all() {
     num_asteroids = 0;
 }
 
-void ast_draw(Asteroid ast) {
-    gfx_point(ast.center.x, ast.center.y);
-    gfx_line(ast.verts[0].x, ast.verts[0].y, ast.verts[1].x, ast.verts[1].y);
-    gfx_line(ast.verts[1].x, ast.verts[1].y, ast.verts[3].x, ast.verts[3].y);
-    gfx_line(ast.verts[3].x, ast.verts[3].y, ast.verts[2].x, ast.verts[2].y);
-    gfx_line(ast.verts[2].x, ast.verts[2].y, ast.verts[0].x, ast.verts[0].y);
+void ast_draw(Asteroid a) {
+    uint8_t i;
+
+    gfx_point(a.center.x, a.center.y);
+
+    for (i = 0; i < a.nsides; i++) {
+        gfx_line(a.verts[i].x, a.verts[i].y,
+                 a.verts[(i+1)%a.nsides].x, a.verts[(i+1)%a.nsides].y);
+    }
 }
 
 void ast_draw_all_asteroids() {
@@ -64,18 +58,18 @@ void ast_draw_all_asteroids() {
     }
 }
 
-void ast_move(Asteroid *ast) {
+void ast_move(Asteroid *a) {
+    uint8_t i;
 
-    if (ast->center.x < 0 || ast->center.x > WDTH)
-        ast->speed.x = -(ast->speed.x);
-    if (ast->center.y < 0 || ast->center.y > HGHT)
-        ast->speed.y = -(ast->speed.y);
+    if (a->center.x < 0 || a->center.x > WDTH)
+        a->speed.x = -(a->speed.x);
+    if (a->center.y < 0 || a->center.y > HGHT)
+        a->speed.y = -(a->speed.y);
 
-    ast->center   = vec2_add(ast->center, ast->speed);
-    ast->verts[0] = vec2_add(ast->verts[0], ast->speed);
-    ast->verts[1] = vec2_add(ast->verts[1], ast->speed);
-    ast->verts[2] = vec2_add(ast->verts[2], ast->speed);
-    ast->verts[3] = vec2_add(ast->verts[3], ast->speed);
+    a->center   = vec2_add(a->center, a->speed);
+    for (i = 0; i < a->nsides; i++) {
+        a->verts[i] = vec2_add(a->verts[i], a->speed);
+    }
 }
 
 void ast_move_all_asteroids() {
@@ -103,4 +97,45 @@ static double random_angle() {
     r = (double)rand() / (double)(RAND_MAX/360.0);
 
     return r;
+}
+
+static void random_vertices(Asteroid *a) {
+    uint8_t i;
+    double  random_angles[a->nsides];
+    double  angle;
+    Vec2    vertical = vec2_create(0, -(a->size));
+    Vec2    aux, point;
+
+    /* generate nsides random points */
+    for (i = 0; i < a->nsides; i++)
+        random_angles[i] = random_angle();
+
+    bubble_sort(random_angles, a->nsides);
+
+    for (i = 0; i < a->nsides; i++) {
+        angle = random_angles[i];
+        aux   = vec2_rot(vertical, angle);
+        point = vec2_add(aux, a->center);
+        a->verts[i] = point;
+    }
+}
+
+static void bubble_sort(double arr[], uint8_t size) {
+    uint8_t i;
+    uint8_t changes = 0;
+    double  temp;
+
+    while (1) {
+        for (i = 0; i < size; i++) {
+            if (arr[i] > arr[i+1]) {
+                changes  = 1;
+                temp     = arr[i];
+                arr[i]   = arr[i+1];
+                arr[i+1] = temp;
+            }
+        }
+        if (changes == 0)
+            break;
+        changes = 0;
+    }
 }
