@@ -17,7 +17,7 @@ static void   bubble_sort(double [], uint8_t);
 Asteroid ast_create(Vec2 center) {
     Asteroid a;
     a.nsides = MAX_VERTS;
-    a.size   = 50.0;
+    a.size   = (double)(rand() % (100 - 15 + 1)) + 15;
     a.center = center;
     a.speed  = random_speed();
 
