@@ -8,7 +8,7 @@
 static uint8_t  num_asteroids = 0;
 static Asteroid ast_array[256];
 
-static Vec2   random_speed();
+static Vec2   random_speed(double);
 static double random_angle();
 static void   random_vertices(Asteroid *);
 static void   bubble_sort(double [], uint8_t);
@@ -19,7 +19,8 @@ Asteroid ast_create(Vec2 center) {
     a.nsides = MAX_VERTS;
     a.size   = (double)(rand() % (100 - 15 + 1)) + 15;
     a.center = center;
-    a.speed  = random_speed();
+    a.speed  = random_speed(a.size);
+    a.angsp  = (double)(rand() % (9 - 1 + 1)) + 1;
 
     random_vertices(&a);
 
@@ -72,18 +73,31 @@ void ast_move(Asteroid *a) {
     }
 }
 
-void ast_move_all_asteroids() {
+void ast_rotate(Asteroid *a) {
     uint8_t i;
-    for (i = 0; i < num_asteroids; i++)
-        ast_move(&ast_array[i]);
+    Vec2 aux; /* vector del centro al vértice i */
+
+    for (i = 0; i < a->nsides; i++) {
+        aux   = vec2_sub(a->verts[i], a->center);
+        aux   = vec2_rot(aux, a->angsp);
+        a->verts[i] = vec2_add(aux, a->center);
+    }
 }
 
-static Vec2 random_speed() {
+void ast_move_all_asteroids() {
+    uint8_t i;
+    for (i = 0; i < num_asteroids; i++) {
+        ast_move(&ast_array[i]);
+        ast_rotate(&ast_array[i]);
+    }
+}
+
+static Vec2 random_speed(double size) {
     Vec2   unit_random;
     double dir;
-    double magnitude = 2.0;
+    double magnitude;
 
-    //magnitude   = (-0.1 * ast.size) + 11; /* cuanto más grande más lento */
+    magnitude   = (-0.1 * size) + 11; /* cuanto más grande más lento */
     dir         = random_angle();
     unit_random = vec2_rot(vec2_create(0, 1), dir); /* unitario aleatorio */
 

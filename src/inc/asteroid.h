@@ -11,7 +11,7 @@ typedef struct {
     Vec2    center;
     double  size;
     Vec2    speed;
-    double  momentum;
+    double  angsp;
     Vec2    verts[MAX_VERTS];
 } Asteroid;
 
