@@ -9,6 +9,7 @@
 typedef struct {
     uint8_t nsides;
     Vec2    center;
+    Vec2    centroid;
     double  size;
     Vec2    speed;
     double  angsp;

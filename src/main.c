@@ -7,7 +7,7 @@
 #include "vec2.h"
 #include "common.h"
 
-#define FMRT 25000
+#define FMRT 35000
 
 double rand_range(int min, int max) {
     int res;

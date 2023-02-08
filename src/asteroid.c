@@ -12,7 +12,7 @@ static Vec2   random_speed(double);
 static double random_angle();
 static void   random_vertices(Asteroid *);
 static void   bubble_sort(double [], uint8_t);
-
+static Vec2   centroid(Vec2 [], uint8_t);
 
 Asteroid ast_create(Vec2 center) {
     Asteroid a;
@@ -23,6 +23,8 @@ Asteroid ast_create(Vec2 center) {
     a.angsp  = (double)(rand() % (9 - 1 + 1)) + 1;
 
     random_vertices(&a);
+
+    a.centroid = centroid(a.verts, a.nsides);
 
     ast_array[num_asteroids] = a;
     num_asteroids++;
@@ -44,7 +46,8 @@ void ast_destroy_all() {
 void ast_draw(Asteroid a) {
     uint8_t i;
 
-    gfx_point(a.center.x, a.center.y);
+    //gfx_point(a.center.x, a.center.y);
+    gfx_point(a.centroid.x, a.centroid.y);
 
     for (i = 0; i < a.nsides; i++) {
         gfx_line(a.verts[i].x, a.verts[i].y,
@@ -62,12 +65,16 @@ void ast_draw_all_asteroids() {
 void ast_move(Asteroid *a) {
     uint8_t i;
 
-    if (a->center.x < 0 || a->center.x > WDTH)
+    /* Bounce using centroid due to visual issues.
+     * Using the center made some bounces appear way before an edge touched
+     * any border */
+    if (a->centroid.x < 0 || a->centroid.x > WDTH)
         a->speed.x = -(a->speed.x);
-    if (a->center.y < 0 || a->center.y > HGHT)
+    if (a->centroid.y < 0 || a->centroid.y > HGHT)
         a->speed.y = -(a->speed.y);
 
     a->center   = vec2_add(a->center, a->speed);
+    a->centroid = vec2_add(a->centroid, a->speed);
     for (i = 0; i < a->nsides; i++) {
         a->verts[i] = vec2_add(a->verts[i], a->speed);
     }
@@ -78,10 +85,11 @@ void ast_rotate(Asteroid *a) {
     Vec2 aux; /* vector del centro al vértice i */
 
     for (i = 0; i < a->nsides; i++) {
-        aux   = vec2_sub(a->verts[i], a->center);
+        aux   = vec2_sub(a->verts[i], a->centroid);
         aux   = vec2_rot(aux, a->angsp);
-        a->verts[i] = vec2_add(aux, a->center);
+        a->verts[i] = vec2_add(aux, a->centroid);
     }
+
 }
 
 void ast_move_all_asteroids() {
@@ -152,4 +160,20 @@ static void bubble_sort(double arr[], uint8_t size) {
             break;
         changes = 0;
     }
+}
+
+static Vec2 centroid(Vec2 verts[], uint8_t nsides) {
+    uint8_t i;
+    Vec2    centroid;
+    Vec2    sum;
+
+
+    sum = vec2_add(verts[0], verts[1]);
+    for (i = 2; i < nsides; i++) {
+        sum = vec2_add(sum, verts[i]);
+    }
+
+    centroid = vec2_div_esc(sum, (double) nsides);
+
+    return centroid;
 }
