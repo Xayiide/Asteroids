@@ -5,7 +5,7 @@ CFLAGS = -g -Wall -Wextra -Wpedantic
 LFLAGS = -lX11 -lm
 IFLAGS = -Iinc/
 
-.PHONY: all clean re
+.PHONY: all clean re run
 
 TGT  = main 
 SRCS = main.c gfx.c vec2.c asteroid.c
@@ -23,5 +23,7 @@ clean:
 	@rm -f $(TGT) $(OBJS)
 	@echo "clean"
 
-
 re: clean all
+
+run: $(TGT)
+	./$(TGT)
